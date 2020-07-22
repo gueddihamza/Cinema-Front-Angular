@@ -1,0 +1,37 @@
+.nav-pills .nav-link {
+    color: #fff;
+    cursor: default;
+    background-color: #868686; 
+    margin-right: 10px;
+}
+
+.nav-pills .nav-link.active {
+    color: #000;
+    cursor: default;
+    background-color: #afafaf; 
+    font-weight: bold;
+}
+
+p img{
+    height: 180px;
+    width: 140px;
+}
+
+h5.card-title {
+    font-size: medium;
+}
+
+div.projection-card{
+    /*height : 350px; */
+}
+
+.session-item{
+    font-size: 13px;
+}
+
+.ticket{
+    width:40;
+    height:40px;
+    font-size: small;
+    align-items: center;
+}

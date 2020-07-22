@@ -1,0 +1,84 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card mt-5" style="width: 10rem;">
+                <div class="card-header">
+                  City List
+                </div>
+            <ul *ngIf="cities" class="list-group list-group-flush">
+                <li *ngFor="let city of cities._embedded.cities" class="list-group-item"
+                [ngClass] = "city==currentCity? 'active' : ''" (click)="onGetCinemas(city)">
+                    {{city.name}}
+                </li>
+            </ul>
+
+        </div>
+        </div>
+        <div class="col-md-9 mt-5">
+        <h2 class="display-4">Cinemas</h2>
+        <div class="card">
+          <div class="card-header">
+            <ul *ngIf="cinemas" class="nav nav-pills card-header-pills">
+              <li *ngFor="let cinema of cinemas._embedded.cinemas" class="nav-item">
+                <a class="nav-link" [ngClass]="cinema==currentCinema? 'active':''"
+                (click)="onGetRooms(cinema)">{{cinema.name}}</a>
+              </li>
+            </ul>
+          </div>
+          <div class="card-body" *ngIf="rooms">
+          <div class="row" >
+            <div class="col-sm-6" *ngFor="let room of rooms._embedded.rooms">
+                <div class="card border-dark mb-3 projection-card" >
+                    <div class="card-header">{{room.name}}</div>
+                    <div class="card-body text-dark" *ngIf="room.movieProjections">
+                      <div class="row">
+                        <div class="col-md-5">
+                      <h5 class="card-title">{{room.movieProjections._embedded.movieProjections[0].movie.name}}</h5>
+                      <p class="card-text"><img src="{{cinemaService.host+'/movieImage/'+room.movieProjections._embedded.movieProjections[0].movie.id}}"/></p>
+                    </div>
+
+                    <div class="col-md-6 ml-4 mt-n2">
+                      <ul class="list-group">
+                        <li class="list-group-item list-group-item-info">Sessions : </li>
+                        <li (click)="onGetTickets_Seats(projection)" *ngFor = "let projection of room.movieProjections._embedded.movieProjections" 
+                        class="list-group-item session-item" [ngClass]="projection==currentProjection? 'active':''">
+                          {{projection.session.startTime.slice(0,-3)}} => Price : {{projection.price|number:'0.00'}}DH
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div *ngIf="currentProjection" class="mt-3">
+                    <div *ngIf="room.id==currentProjection.room.id">
+
+                  <div class="row" *ngIf="currentProjection.tickets">
+                    <button (click)="onSelectTicket(ticket)" [disabled]="ticket.booked" 
+                    class="{{getTicketClass(ticket)}}" *ngFor="let ticket of currentProjection.tickets._embedded.tickets">
+                      {{ticket.seat.number}}
+                    </button>
+                  </div>
+
+                  <div class="mt-2" *ngIf="selectedTickets.length>0">
+                    <form #f="ngForm" (ngSubmit)="onPayTickets(f.value)">
+                      <div class="form-group">
+                        <label class="control-label">Client Name :</label> 
+                        <input class="form-control" type="text" name="clientName" ngModel>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label">Payment Code :</label> 
+                        <input class="form-control" type="text" name="paymentCode" ngModel>
+                      </div>
+                      <button type="submit" class="btn btn-success">Proceed</button>
+
+                    </form>
+                  </div>
+                </div>
+                </div>
+                  </div>
+                </div>
+            </div>
+          </div>  
+    </div>
+</div>   
+    </div>
+</div>
+</div>
